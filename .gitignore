@@ -1,5 +1,121 @@
-# Object file
-*.o
+# Node dependencies
+node_modules/
+.pnp/
+.pnp.js
 
-# Ada Library Information
-*.ali
+# Build output
+dist/
+build/
+.vite/
+coverage/
+
+# Lockfiles (keep one per project as desired)
+# If you use pnpm, commit pnpm-lock.yaml; otherwise ignore it if you commit yarn.lock/package-lock.json instead.
+# Uncomment the lockfile you want to ignore (or keep none ignored)
+# pnpm-lock.yaml
+# yarn.lock
+# package-lock.json
+
+# Local env files
+.env
+.env.*.local
+.env.local
+.env.*.local
+.env.production.local
+.env.development.local
+
+# Vite cache
+node_modules/.vite/
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+tsconfig.node.*.json
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+pnpm-debug.log.*
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDEs and editors
+.idea/
+.vscode/
+.vscode/*                 # optionally ignore workspace settings; remove if you keep them
+*.sublime-workspace
+*.sublime-project
+
+# JetBrains IDEs
+*.iml
+*.iws
+.idea/
+
+# Mac specific
+*.DS_Store
+
+# Windows specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.log
+*.tmp
+*.temp
+*.swp
+*~.nib
+
+# Test output
+coverage/
+jest*.coverage
+.vitest/
+
+# Mock / local dev servers
+.local-credentials.json
+.local-*
+
+# Docker
+docker-compose.override.yml
+.Dockerfile.local
+.docker/
+
+# Generated icons / assets (if you generate at build-time)
+public/icon-*.png
+public/favicon-*.png
+
+# Storybook
+.storybook/build/
+
+# Environment for CI / editors
+.env.test
+
+# MacOS keychain export from docs or certs
+*.cer
+*.crt
+*.pfx
+*.pem
+key.pem
+cert.pem
+
+# Optional: ignore package manager caches
+.pnpm-store/
+.npm/
+.cache/
+
+# Optional: ignore generated types or build artifacts from third-party tools
+dist-ssr/
+server-dist/
+
+# Ignore lockfile from other package managers if you commit one lockfile
+# For example, if you use pnpm, you typically commit pnpm-lock.yaml; ignore the others:
+# yarn.lock
+# package-lock.json
+
+# End
