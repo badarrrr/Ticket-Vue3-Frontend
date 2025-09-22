@@ -27,7 +27,9 @@
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { login } from '../services/auth'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const form = reactive({ username: '', password: '' })
 const rules = {
   username: [{ required: true, message: 'Please input username', trigger: 'blur' }],
@@ -44,7 +46,8 @@ async function onSubmit() {
     try {
       await login(form.username, form.password)
       ElMessage.success('Logged in')
-      window.location.href = '/'
+      router.push('/')
+      // window.location.href = '/'
     } catch (err: any) {
       ElMessage.error(err.message || 'Login failed')
     } finally {
