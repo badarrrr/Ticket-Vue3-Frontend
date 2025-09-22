@@ -1,14 +1,15 @@
 
 import { defineStore } from 'pinia'
 import type { User } from '../types'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import api from '../services/api'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
   const token = ref<string | null>(null)
 
-  const isAuthenticated = !!token.value
+  const isAuthenticated = computed(() => !!token.value)
+
 
   async function login(username: string, password: string) {
     const res = await api.login(username, password)
