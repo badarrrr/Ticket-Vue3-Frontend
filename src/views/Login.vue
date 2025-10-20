@@ -28,6 +28,7 @@ import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { login } from '../services/auth'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const router = useRouter()
 const form = reactive({ username: '', password: '' })
@@ -47,7 +48,6 @@ async function onSubmit() {
       await login(form.username, form.password)
       ElMessage.success('Logged in')
       router.push('/')
-      // window.location.href = '/'
     } catch (err: any) {
       ElMessage.error(err.message || 'Login failed')
     } finally {
@@ -55,6 +55,7 @@ async function onSubmit() {
     }
   })
 }
+
 
 function fillDemo() {
   form.username = 'alice'

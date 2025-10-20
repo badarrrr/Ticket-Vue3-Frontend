@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue' 
 
 const props = defineProps({})
 const emits = defineEmits(['submit'])
