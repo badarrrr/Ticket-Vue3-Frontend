@@ -5,21 +5,28 @@
  */
 
 import axios from 'axios'
+import { useAuthStore } from '../store'
 import type { Ticket, User } from '../types'
 import { v4 as uuidv4 } from 'uuid'
 
-const client = axios.create({
-  baseURL: '/api',
-  timeout: 10000
+
+const isDev = import.meta.env.MODE === 'development'
+const api = axios.create({
+  baseURL: isDev ? '/api' : 'http://101.43.85.43:8000', // 开发用代理，生产直连
+  timeout: 5000
 })
+
+api.interceptors.request.use(config => {
+  const auth = useAuthStore()
+  if (auth.token) {
+    config.headers.Authorization = `Bearer ${auth.token}`
+  }
+  return config
+})
+
 
 // In-memory mock store (for demo)
 const mock = {
-  users: [
-    { id: 'u1', username: 'alice', fullName: 'Alice Tester', role: 'TESTER', email: 'alice@example.com' },
-    { id: 'u2', username: 'bob', fullName: 'Bob Dev', role: 'DEVELOPER', email: 'bob@example.com' },
-    { id: 'u3', username: 'carol', fullName: 'Carol QA', role: 'QA', email: 'carol@example.com' }
-  ] as User[],
   tickets: [] as Ticket[]
 }
 
@@ -28,16 +35,30 @@ function sleep(ms = 300) {
 }
 
 export default {
-  // Auth
+  // Login 
   async login(username: string, password: string) {
-    await sleep(300)
-    const user = mock.users.find((u) => u.username === username)
-    if (!user || password !== 'password') {
-      throw new Error('Invalid credentials. (Demo: password = "password")')
+    try {
+      const response = await api.post('/api/login/', { username, password })
+      const { token, user } = response.data
+      return { token, user }
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        throw new Error('username or password error')
+      }
+      throw new Error(error.message || 'Login fail')
     }
-    // Demo token
-    return { token: 'demo-token-' + user.id, user }
   },
+
+  async listUsers() {
+      try {
+        const response = await api.get('/api/users/') 
+        return response.data 
+      } catch (error: any) {
+        console.error('Get users list error:', error)
+        throw new Error(error.message || 'Fail to get users list')
+      }
+    },
+
 
   // Tickets
   async listTickets(filters = {}) {
@@ -113,8 +134,40 @@ export default {
     return t
   },
 
-  async listUsers() {
-    await sleep(100)
-    return mock.users
-  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ----------------------------------------------------------------------------------
+// const client = axios.create({
+//   baseURL: '/api',
+//   timeout: 10000
+// })

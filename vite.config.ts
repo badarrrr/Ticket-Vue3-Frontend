@@ -12,6 +12,13 @@ export default defineConfig({
     }
   },
   server: {
+    proxy: {
+      '/api': {
+        target: 'http://101.43.85.43:8000', // Django 后端地址
+        changeOrigin: true, // 修改请求头中的 origin
+        rewrite: (path) => path.replace(/^\/api/, '') // 去掉 /api 前缀
+      }
+    },
     port: 5173,
     open: true
   },
