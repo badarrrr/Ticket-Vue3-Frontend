@@ -2,7 +2,7 @@
 <template>
   <div class="header container" style="display:flex; align-items:center; justify-content:space-between;">
     <div style="display:flex; align-items:center; gap:12px;">
-      <img src="/src/assets/logo.svg" alt="logo" style="height:36px;"/>
+      <img src="@/assets/logo.png" alt="logo" style="height:36px;"/>
       <div>
         <div style="font-weight:600;">Ticketing System</div>
         <div style="font-size:12px; color:#666;">Testing · Development · QA</div>
