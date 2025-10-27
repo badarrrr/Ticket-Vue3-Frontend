@@ -36,9 +36,11 @@
 import { computed } from 'vue'
 import { useAuthStore } from '../store'
 import { logout } from '../services/auth'
+import { useRouter } from "vue-router";
 
 const auth = useAuthStore()
 const user = computed(() => auth.user)
+const router = useRouter()
 
 const initials = computed(() => {
   if (!user.value) return ''
@@ -46,8 +48,7 @@ const initials = computed(() => {
 })
 
 function goProfile() {
-  // placeholder
-  alert('Profile not implemented in demo.')
+  router.push('/profile')
 }
 function doLogout() {
   logout()

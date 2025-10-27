@@ -7,6 +7,7 @@ import TicketCreate from '../views/TicketCreate.vue'
 import TicketDetail from '../views/TicketDetail.vue'
 import AIInsights from '../views/AIInsights.vue'
 import { useAuthStore } from '../store'
+import Profile from '../views/Profile.vue' // 导入组件
 
 const routes = [
   { path: '/', name: 'Home', component: Dashboard, meta: { requiresAuth: true } },
@@ -14,7 +15,13 @@ const routes = [
   { path: '/tickets', name: 'Tickets', component: TicketsList, meta: { requiresAuth: true } },
   { path: '/tickets/create', name: 'TicketCreate', component: TicketCreate, meta: { requiresAuth: true } },
   { path: '/tickets/:id', name: 'TicketDetail', component: TicketDetail, meta: { requiresAuth: true }, props: true },
-  { path: '/ai-insights', name: 'AIInsights', component: AIInsights, meta: { requiresAuth: true } }
+  { path: '/ai-insights', name: 'AIInsights', component: AIInsights, meta: { requiresAuth: true } },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile,
+        meta: { requiresAuth: true } // 如果需要登录才能访问
+  }
 ]
 
 const router = createRouter({
