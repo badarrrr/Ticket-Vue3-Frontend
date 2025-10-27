@@ -65,6 +65,7 @@ import api from '../services/api'
 import { ElMessage } from 'element-plus'
 import type { User } from '../types'
 import dayjs from 'dayjs'
+import { useRouter } from 'vue-router'
 import useAuth from '../store'
 
 const formRef = ref()
@@ -81,6 +82,7 @@ const form = reactive({
 const files: File[] = []
 const filesPreview: File[] = []
 const developers = ref<User[]>([])
+const router = useRouter()
 
 onMounted(async () => {
   const users = await api.listUsers()
@@ -127,7 +129,7 @@ async function submit() {
   try {
     const t = await api.createTicket(payload)
     ElMessage.success('Ticket created')
-    window.location.href = `/tickets/${t.id}`
+    router.push('/tickets')
   } catch (err: any) {
     ElMessage.error(err.message || 'Failed to create')
   }
