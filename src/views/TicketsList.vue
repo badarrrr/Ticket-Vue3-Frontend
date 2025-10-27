@@ -8,10 +8,10 @@
       </el-col>
     </el-row>
 
-    <el-space direction="vertical" style="width:100%;">
-      <TicketCard v-for="t in tickets" :key="t.id" :ticket="t" />
-      <div v-if="tickets.length === 0" style="text-align:center; color:#888;">No tickets</div>
-    </el-space>
+      <div class="card-wrapper">
+        <TicketCard v-for="t in tickets" :key="t.id" :ticket="t" />
+        <div v-if="tickets.length === 0" class="no-ticket">No tickets</div>
+      </div>
   </div>
 </template>
 
@@ -38,5 +38,29 @@ onMounted(load)
 </script>
 
 <style scoped>
-.container { max-width:1100px; }
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+.container { max-width:1100px; 
+}
+.ticket-item {
+  width: 60%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+.ticket-item > * {
+  width: 100%;
+  box-sizing: border-box;
+}
+.card-wrapper {
+  width: 60%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 </style>
