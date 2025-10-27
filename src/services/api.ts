@@ -61,25 +61,29 @@ export default {
 
 
   // Tickets
-  async listTickets(filters = {}) {
-    await sleep(200)
-    // naive filtering for demo
-    return mock.tickets
+  async listTickets() {
+      try {
+        const response = await api.get('/api/tickets/')
+        return response.data
+      } catch (error: any) {
+        console.error('Get tickets list error:', error)
+        throw new Error(error.message || 'Fail to get tickets list')
+      }
   },
 
   async getTicket(id: string) {
-    await sleep(200)
-    const t = mock.tickets.find((x) => x.id === id)
-    if (!t) throw new Error('Ticket not found')
-    return t
+      try {
+        const response = await api.get(`/api/tickets/${id}/`)
+        return response.data
+      } catch (error: any) {
+        console.error('Get ticket', id ,' error:', error)
+        throw new Error(error.message)
+      }
   },
 
   async createTicket(payload: Partial<Ticket>) {
-    await sleep(300)
-    const id = uuidv4()
     const now = new Date().toISOString()
-    const ticket: Ticket = {
-      id,
+    const ticket = {
       title: payload.title || 'Untitled',
       description: payload.description || '',
       software_name: payload.software_name || '',
@@ -87,14 +91,16 @@ export default {
       discovered_at: payload.discovered_at || now,
       severity: (payload.severity as any) || 'NORMAL',
       module: payload.module,
-      current_status: 'OPEN',
-      submitter: payload.submitter,
-      assignee: payload.assignee,
-      created_at: now,
-      updated_at: now
+      assignee: payload.assignee
     }
-    mock.tickets.unshift(ticket)
-    return ticket
+    try{
+        const response = await api.post('/api/tickets/', ticket)
+        console.log(response.data)
+        return response.data
+      } catch (error: any) {
+        console.error('Create ticket error:', error)
+        throw new Error(error.message || 'Fail to create ticket')
+      }
   },
 
   async submitDevReport(ticketId: string, report: any) {

@@ -113,7 +113,6 @@ async function submit() {
     ElMessage.error('Title is required')
     return
   }
-  // For demo, attachments not uploaded to server
   const payload: any = {
     title: form.title,
     software_name: form.software_name,
