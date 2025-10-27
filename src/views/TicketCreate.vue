@@ -129,7 +129,7 @@ async function submit() {
   try {
     const t = await api.createTicket(payload)
     ElMessage.success('Ticket created')
-    router.push('/tickets')
+    router.push(`/tickets/${t.id}/`)
   } catch (err: any) {
     ElMessage.error(err.message || 'Failed to create')
   }
