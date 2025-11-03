@@ -25,15 +25,6 @@ api.interceptors.request.use(config => {
 })
 
 
-// In-memory mock store (for demo)
-const mock = {
-  tickets: [] as Ticket[]
-}
-
-function sleep(ms = 300) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
 export default {
   // Login 
   async login(username: string, password: string) {
@@ -95,7 +86,6 @@ export default {
     }
     try{
         const response = await api.post('/api/tickets/', ticket)
-        console.log(response.data)
         return response.data
       } catch (error: any) {
         console.error('Create ticket error:', error)
@@ -104,40 +94,36 @@ export default {
   },
 
   async submitDevReport(ticketId: string, report: any) {
-    await sleep(200)
-    // update status to UNDER_REVIEW
-    const t = mock.tickets.find((x) => x.id === ticketId)
-    if (!t) throw new Error('Ticket not found')
-    t.current_status = 'UNDER_REVIEW'
-    t.updated_at = new Date().toISOString()
-    return t
+    try{
+        const response = await api.post(`/api/tickets/${ticketId}/dev-report/`, report)
+        // return updated ticket
+        return response.data
+      } catch (error: any) {
+        console.error('Developer update ticket error:', error)
+        throw new Error(error.message || 'Fail to update ticket(developer)')
+      }
   },
 
   async submitQAReview(ticketId: string, review: any) {
-    await sleep(200)
-    const t = mock.tickets.find((x) => x.id === ticketId)
-    if (!t) throw new Error('Ticket not found')
-    if (review.agree_to_release) {
-      t.current_status = 'IN_REGRESSION'
-      t.regressor = review.designated_tester || t.submitter
-    } else {
-      t.current_status = 'IN_MODIFICATION'
-    }
-    t.updated_at = new Date().toISOString()
-    return t
+    try{
+    const response = await api.post(`/api/tickets/${ticketId}/qa-review/`, review)
+        // return updated ticket
+        return response.data
+      } catch (error: any) {
+        console.error('QA review ticket error:', error)
+        throw new Error(error.message || 'Fail to update ticket(QA)')
+      }
   },
 
   async submitRegression(ticketId: string, regression: any) {
-    await sleep(200)
-    const t = mock.tickets.find((x) => x.id === ticketId)
-    if (!t) throw new Error('Ticket not found')
-    if (regression.passed) {
-      t.current_status = 'CLOSED'
-    } else {
-      t.current_status = 'UNDER_REVIEW'
-    }
-    t.updated_at = new Date().toISOString()
-    return t
+    try{
+    const response = await api.post(`/api/tickets/${ticketId}/regression/`, regression)
+        // return updated ticket
+        return response.data
+      } catch (error: any) {
+        console.error('Regression ticket error:', error)
+        throw new Error(error.message || 'Fail to update ticket(Regression)')
+      }
   },
 
 }

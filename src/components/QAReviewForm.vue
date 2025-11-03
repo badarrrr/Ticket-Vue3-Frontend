@@ -29,7 +29,6 @@ import { ref, onMounted } from 'vue'
 import api from '../services/api'
 import type { User } from '../types'
 
-const props = defineProps<{}>
 const emits = defineEmits(['submit'])
 
 const form = ref({
