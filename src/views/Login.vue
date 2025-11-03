@@ -16,7 +16,6 @@
 
         <el-form-item>
           <el-button type="primary" @click="onSubmit" :loading="loading">Sign in</el-button>
-          <el-button @click="fillDemo">Fill demo</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -56,11 +55,6 @@ async function onSubmit() {
   })
 }
 
-
-function fillDemo() {
-  form.username = 'alice'
-  form.password = 'password'
-}
 </script>
 
 <style scoped>
