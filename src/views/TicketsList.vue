@@ -16,25 +16,47 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import api from '../services/api'
 import TicketCard from '../components/TicketCard.vue'
 import TicketFilters from '../components/TicketFilters.vue'
 import type { Ticket } from '../types'
 
+const allTickets = ref<Ticket[]>([])
 const tickets = reactive<Ticket[]>([])
+const currentFilters = reactive({ status: '', severity: '', query: '' })
 
 async function load() {
   const res = await api.listTickets()
-  tickets.splice(0, tickets.length, ...(res || []))
+  allTickets.value = res || []
+  applyCurrentFilters()
 }
 
 function applyFilters(filters: any) {
-  // demo: server-side filter placeholder
-  load()
+  currentFilters.status = filters.status || ''
+  currentFilters.severity = filters.severity || ''
+  currentFilters.query = filters.query || ''
+  applyCurrentFilters()
 }
 
 onMounted(load)
+
+function applyCurrentFilters() {
+  const status = (currentFilters.status || '').toUpperCase()
+  const severity = (currentFilters.severity || '')
+  const query = (currentFilters.query || '').toLowerCase().trim()
+
+  const filtered = allTickets.value.filter(t => {
+    const statusOk = !status || (String(t.current_status || '').toUpperCase() === status)
+    const severityOk = !severity || t.severity === severity
+    const queryOk = !query ||
+      (String(t.title || '').toLowerCase().includes(query) ||
+       String(t.description || '').toLowerCase().includes(query))
+    return statusOk && severityOk && queryOk
+  })
+
+  tickets.splice(0, tickets.length, ...filtered)
+}
 </script>
 
 <style scoped>
