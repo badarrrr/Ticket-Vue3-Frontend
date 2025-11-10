@@ -9,6 +9,15 @@ export interface User {
   role: Role
 }
 
+export interface QAreview {
+  id: string
+  agree_to_release: true
+  comment?: string
+  created_at: string
+  designatedTester: User
+  reviewer: User
+}
+
 export type Severity = 'HINT' | 'NORMAL' | 'SEVERE' | 'CRITICAL'
 
 export type TicketStatus =
@@ -33,6 +42,7 @@ export interface Ticket {
   submitter?: User
   assignee?: User
   qa_reviewer?: User
+  qa_reviews?: Array<QAreview>
   regressor?: User
   created_at?: string
   updated_at?: string
