@@ -14,7 +14,7 @@
       </el-form-item>
 
       <el-form-item label="Comments">
-        <el-input type="textarea" v-model="form.comments" rows="4" />
+        <el-input type="textarea" v-model="form.comment" rows="4" />
       </el-form-item>
 
       <el-form-item>
@@ -34,7 +34,7 @@ const emits = defineEmits(['submit'])
 const form = ref({
   agree_to_release: true,
   designated_tester: null as User | null,
-  comments: ''
+  comment: ''
 })
 
 const testers = ref<User[]>([])
